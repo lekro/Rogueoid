@@ -10,5 +10,8 @@ public class Room {
 		this.y = y;
 	}
 	
+	public String toString() {
+		return width+"x"+height+" at ("+x+", "+y+")";
+	}
 	
 }
