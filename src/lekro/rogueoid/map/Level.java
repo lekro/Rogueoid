@@ -1,5 +1,6 @@
 package lekro.rogueoid.map;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class Level {
@@ -44,12 +45,7 @@ public class Level {
 	public char[][] grabMap() {
 
 		char[][] map = new char[width][height];
-		
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				map[i][j] = EMPTY_SPACE;
-			}
-		}
+		Arrays.fill(map, EMPTY_SPACE);
 		
 		for (int i = 0; i < rooms.length; i++) {
 			for (int j = 0; j < rooms[i].length; j++) {
