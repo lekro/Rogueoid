@@ -6,7 +6,7 @@ import java.util.Random;
 public class Level {
 
 	public static final int DEFAULT_WIDTH = 63;
-	public static final int DEFAULT_HEIGHT = 63;
+	public static final int DEFAULT_HEIGHT = 30;
 	public static final int SECTOR_COUNT_X = 3;
 	public static final int SECTOR_COUNT_Y = 3;
 	private int height;
@@ -42,15 +42,16 @@ public class Level {
 		
 	}
 	
-	public char[][] grabMap() {
+	public char[][] toCharArray() {
 
 		char[][] map = new char[width][height];
-		Arrays.fill(map, EMPTY_SPACE);
+		for (char[] boo : map) {
+			Arrays.fill(boo, new Character(EMPTY_SPACE));
+		}
 		
 		for (int i = 0; i < rooms.length; i++) {
 			for (int j = 0; j < rooms[i].length; j++) {
 				Room r = rooms[i][j];
-				System.out.println("Room ("+i+","+j+") - "+r.toString());
 				
 				for (int x = r.x; x < r.x+r.width; x++) {
 					map[x][r.y] = WALL;
@@ -72,14 +73,20 @@ public class Level {
 		return map;
 	}
 	
-	public static void printMap(char[][] map) {
-
+	public String toString() {
+		char[][] map = toCharArray();
+		StringBuilder sb = new StringBuilder((height+1)*width);
 		for (int i = 0; i < map[0].length; i++) {
 			for (int j = 0; j < map.length; j++) {
-				System.out.print(map[j][i]);
+				sb.append(map[j][i]);
 			}
-			System.out.println();
+			sb.append('\n');
 		}
+		return sb.toString();
+	}
+	
+	public Room[][] getRooms() {
+		return rooms;
 	}
 	
 	public int getHeight() {
