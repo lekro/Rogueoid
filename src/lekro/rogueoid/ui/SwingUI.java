@@ -17,7 +17,7 @@ public class SwingUI extends RogueoidUI {
 		
 		frame = new JFrame("Rogueoid "+Rogueoid.VERSION);
 		text = new JTextArea(30, 63);
-		text.setFont(new Font("monospaced", Font.PLAIN, 24));
+		text.setFont(new Font("monospaced", Font.PLAIN, 18));
 		text.setBackground(Color.BLACK);
 		text.setForeground(Color.GRAY);
 		text.setSelectionColor(Color.BLACK);
