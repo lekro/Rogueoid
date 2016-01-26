@@ -1,9 +1,15 @@
 package lekro.rogueoid.map;
 
+import java.awt.Point;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 import lekro.rogueoid.RogueMath;
+import lekro.rogueoid.entity.Entity;
+import lekro.rogueoid.entity.Monster;
+import lekro.rogueoid.entity.Player;
 
 public class Level {
 
@@ -11,16 +17,21 @@ public class Level {
 	public static final int DEFAULT_HEIGHT = 30;
 	public static final int SECTOR_COUNT_X = 3;
 	public static final int SECTOR_COUNT_Y = 3;
-	private int height;
-	private int width;
-	private Room[][] rooms;
 	
 	public static final char EMPTY_SPACE = ' ';
 	public static final char WALL = '#';
 	public static final char FLOOR = '.';
+	public static final char MOB = 'M';
+	public static final char PLAYER = 'O';
 	
 	public static final int ROOM_SKIP_CHANCE = 10;
 	public static final int ROOM_SKIP_MAX = 2;
+	
+	private int height;
+	private int width;
+	private Room[][] rooms;
+	
+	private Set<Entity> entities;
 	
 	public Level() {
 		this(DEFAULT_HEIGHT, DEFAULT_WIDTH);
@@ -65,6 +76,35 @@ public class Level {
 			}
 		}
 		
+		entities = new HashSet<Entity>();
+		
+		for (Room[] rms : rooms) {
+			for (Room r : rms) {
+				if (r == null) continue;
+				int x = random.nextInt(r.width-2) + r.x + 1;
+				int y = random.nextInt(r.height-2) + r.y + 1;
+				Monster m = new Monster(x, y);
+				entities.add(m);
+			}
+		}
+		
+	}
+	
+	public Point getValidLocation() {
+		Random rand = new Random();
+		Point p = null;
+		while (true) {
+			
+			Room r = rooms[rand.nextInt(SECTOR_COUNT_X)][rand.nextInt(SECTOR_COUNT_Y)];
+			
+			if (r == null) continue;
+			
+			int x = rand.nextInt(r.width-2) + r.x + 1;
+			int y = rand.nextInt(r.height-2) + r.y + 1;
+			p = new Point(x, y);
+			break;
+		}
+		return p;
 	}
 	
 	public char[][] toCharArray() {
@@ -97,6 +137,12 @@ public class Level {
 			}	
 		}
 		
+		for (Entity e : entities) {
+			char c = MOB;
+			if (e instanceof Player) c = PLAYER;
+			map[e.getX()][e.getY()] = c;
+		}
+		
 		return map;
 	}
 	
@@ -122,6 +168,10 @@ public class Level {
 	
 	public int getWidth() {
 		return width;
+	}
+	
+	public Set<Entity> getEntities() {
+		return entities;
 	}
 	
 }

@@ -6,6 +6,7 @@ import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
+import lekro.rogueoid.RogueLoop;
 import lekro.rogueoid.Rogueoid;
 
 public class SwingUI extends RogueoidUI {
@@ -13,7 +14,7 @@ public class SwingUI extends RogueoidUI {
 	private JFrame frame;
 	private JTextArea text;
 	
-	public SwingUI() {
+	public SwingUI(RogueLoop loop) {
 		
 		frame = new JFrame("Rogueoid "+Rogueoid.VERSION);
 		text = new JTextArea(30, 63);
@@ -23,6 +24,8 @@ public class SwingUI extends RogueoidUI {
 		text.setSelectionColor(Color.BLACK);
 		text.setSelectedTextColor(Color.GRAY);
 		text.setCaretColor(Color.BLACK);
+		text.setEditable(false);
+		text.addKeyListener(new RogueListener(loop));
 		frame.add(text);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
