@@ -3,16 +3,19 @@ package lekro.rogueoid.entity;
 import java.awt.Point;
 import java.util.Random;
 
+import lekro.rogueoid.map.Level;
+
 public abstract class Entity {
 
 	private int x, y;
 	private Random rand;
+	private Level level;
 	
 	
-	
-	protected Entity(int x, int y) {
+	public Entity(int x, int y, Level level) {
 		setX(x);
 		setY(y);
+		this.level = level;
 		rand = new Random();
 	}
 	
@@ -40,6 +43,10 @@ public abstract class Entity {
 	
 	public Random getRand() {
 		return rand;
+	}
+	
+	public Level getLevel() {
+		return level;
 	}
 	
 }

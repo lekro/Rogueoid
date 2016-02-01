@@ -12,6 +12,7 @@ public class RogueLoop {
 	public RogueLoop(Level l, RogueoidUI ui) {
 		level = l;
 		this.ui = ui;
+		ui.setLoop(this);
 	}
 	
 	public void loop() {

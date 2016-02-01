@@ -14,7 +14,7 @@ public class SwingUI extends RogueoidUI {
 	private JFrame frame;
 	private JTextArea text;
 	
-	public SwingUI(RogueLoop loop) {
+	public SwingUI() {
 		
 		frame = new JFrame("Rogueoid "+Rogueoid.VERSION);
 		text = new JTextArea(30, 63);
@@ -25,12 +25,17 @@ public class SwingUI extends RogueoidUI {
 		text.setSelectedTextColor(Color.GRAY);
 		text.setCaretColor(Color.BLACK);
 		text.setEditable(false);
-		text.addKeyListener(new RogueListener(loop));
 		frame.add(text);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 		
+	}
+	
+	@Override
+	public void setLoop(RogueLoop loop) {
+		super.setLoop(loop);
+		text.addKeyListener(new RogueListener(loop));
 	}
 	
 	public void setText(String text) {

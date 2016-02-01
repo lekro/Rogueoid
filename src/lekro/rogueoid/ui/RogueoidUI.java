@@ -2,13 +2,20 @@ package lekro.rogueoid.ui;
 
 import lekro.rogueoid.RogueLoop;
 
+
 public abstract class RogueoidUI {
 
-	public static RogueoidUI getRecommendedUI(RogueLoop loop) {
+	protected RogueLoop loop;
+	
+	public static RogueoidUI getRecommendedUI() {
 		// TODO make this more interesting
-		return new SwingUI(loop);
+		return new SwingUI();
 	}
 	
 	public abstract void setText(String text);
+	
+	public void setLoop(RogueLoop loop) {
+		this.loop = loop;
+	}
 	
 }
