@@ -18,15 +18,6 @@ public class Rogueoid {
 		RogueoidUI ui = RogueoidUI.getRecommendedUI();
 		RogueLoop loop = new RogueLoop(l, ui);
 		ui.setText(l.toString());
-		while (true) {
-			loop.loop();
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 	
 }
