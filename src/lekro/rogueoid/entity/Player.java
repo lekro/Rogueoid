@@ -5,6 +5,8 @@ import lekro.rogueoid.map.Level;
 
 public class Player extends Entity {
 
+	int direction = -1;
+	
 	public Player(int x, int y, Level level) {
 		super(x, y, level);
 		// TODO Auto-generated constructor stub
@@ -12,7 +14,11 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
-		// Do nothing.
+		move(direction);
+	}
+	
+	public void moveLater(int direction) {
+		this.direction = direction;
 	}
 
 }

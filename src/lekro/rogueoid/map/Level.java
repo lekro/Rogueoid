@@ -190,4 +190,11 @@ public class Level {
 		return entities;
 	}
 	
+	public Player getPlayer() {
+		for (Entity e : getEntities()) {
+			if (e instanceof Player) return (Player) e;
+		}
+		return null;
+	}
+	
 }

@@ -22,4 +22,9 @@ public class RogueLoop {
 		ui.setText(level.toString());
 	}
 	
+	public void playerInput(int input) {
+		level.getPlayer().moveLater(input);
+		if (input != -1) loop();
+	}
+	
 }

@@ -37,6 +37,29 @@ public abstract class Entity {
 		this.y = y;
 	}
 	
+	public void move(int direction) {
+		int x = getX();
+		int y = getY();
+		switch (direction) {
+		case 0: // 0 radians
+			x++;
+			break;
+		case 1: // pi/2 radians, remember y is 0 at top
+			y--;
+			break;
+		case 2: // pi radians
+			x--;
+			break;
+		case 3: // 3*pi/2 radians, remember y is 0 at top
+			y++;
+			break;
+		}
+		if (getLevel().isValidLocation(x, y)) {
+			setX(x);
+			setY(y);
+		}
+	}
+	
 	public Point getCoordinates() {
 		return new Point(x, y);
 	}

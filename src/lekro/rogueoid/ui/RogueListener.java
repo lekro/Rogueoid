@@ -8,6 +8,7 @@ import lekro.rogueoid.RogueLoop;
 public class RogueListener implements KeyListener {
 
 	RogueLoop loop;
+	int keyAlreadyPressed = -1;
 	
 	public RogueListener(RogueLoop rl) {
 		loop = rl;
@@ -15,28 +16,23 @@ public class RogueListener implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent ke) {
-		switch(ke.getKeyCode()) {
-		case KeyEvent.VK_W:
-			break;
-		case KeyEvent.VK_A:
-			break;
-		case KeyEvent.VK_S:
-			break;
-		case KeyEvent.VK_D:
-			break;
-		}
+		int input = ke.getKeyCode();
+		if (keyAlreadyPressed == input) return;
+		keyAlreadyPressed = input;
+		int direction = (input==KeyEvent.VK_D)?0:(input==KeyEvent.VK_W)?1:(input==KeyEvent.VK_A)?2:(input==KeyEvent.VK_S)?3:-1;
+		if (direction != -1) loop.playerInput(direction);
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void keyReleased(KeyEvent ke) {
+		int input = ke.getKeyCode();
+		keyAlreadyPressed = -1;
+		int direction = (input==KeyEvent.VK_D)?0:(input==KeyEvent.VK_W)?1:(input==KeyEvent.VK_A)?2:(input==KeyEvent.VK_S)?3:-1;
+		if (direction != -1) loop.playerInput(-1);
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void keyTyped(KeyEvent ke) {
 	}
 
 }

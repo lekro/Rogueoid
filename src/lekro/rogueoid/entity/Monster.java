@@ -22,16 +22,16 @@ public class Monster extends Entity {
 			x = getX();
 			y = getY();
 			switch (direction) {
-			case 0:
+			case 0: // 0 radians
 				x++;
 				break;
-			case 1:
-				x--;
-				break;
-			case 2:
+			case 1: // pi/2 radians
 				y++;
 				break;
-			case 3:
+			case 2: // pi radians
+				x--;
+				break;
+			case 3: // 3*pi/2 radians
 				y--;
 				break;
 			}
