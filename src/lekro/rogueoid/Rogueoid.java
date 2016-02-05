@@ -14,10 +14,11 @@ public class Rogueoid {
 
 		Level l = new Level();
 		Point p = l.getValidLocation();
-		l.getEntities().add(new Player(p.x, p.y, l));
+		Player player = new Player(p.x, p.y, l);
+		l.getEntities().add(player);
 		RogueoidUI ui = RogueoidUI.getRecommendedUI();
 		RogueLoop loop = new RogueLoop(l, ui);
-		ui.setText(l.toString());
+		ui.setText(l.toString() + "\n" + loop.constructPlayerBar());
 	}
 	
 }

@@ -19,10 +19,15 @@ public class Level {
 	public static final int SECTOR_COUNT_Y = 3;
 	
 	public static final char EMPTY_SPACE = ' ';
+	public static final char EMPTY_SPACE_FULLWIDTH = 0x3000;
 	public static final char WALL = '#';
+	public static final char WALL_FULLWIDTH = 0xFF03;
 	public static final char FLOOR = '.';
+	public static final char FLOOR_FULLWIDTH = 0xFF0A;
 	public static final char MOB = 'M';
+	public static final char MOB_FULLWIDTH = 0xFF2D;
 	public static final char PLAYER = 'O';
+	public static final char PLAYER_FULLWIDTH = 0xFF2F;
 	
 	public static final int ROOM_SKIP_CHANCE = 10;
 	public static final int ROOM_SKIP_MAX = 2;
@@ -154,9 +159,7 @@ public class Level {
 		}
 		
 		for (Entity e : entities) {
-			char c = MOB;
-			if (e instanceof Player) c = PLAYER;
-			map[e.getX()][e.getY()] = c;
+			map[e.getX()][e.getY()] = e.getRepresentation();
 		}
 		
 		return map;

@@ -10,12 +10,17 @@ public abstract class Entity {
 	private int x, y;
 	private Random rand;
 	private Level level;
+	private int health;
+	private int maxHealth;
+	private char representation;
 	
-	
-	public Entity(int x, int y, Level level) {
+	public Entity(int x, int y, Level level, int maxHealth) {
 		setX(x);
 		setY(y);
 		this.level = level;
+		this.maxHealth = maxHealth;
+		this.health = maxHealth;
+		this.representation = 'E';
 		rand = new Random();
 	}
 	
@@ -35,6 +40,30 @@ public abstract class Entity {
 	
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public char getRepresentation() {
+		return representation;
+	}
+	
+	public void setRepresentation(char representation) {
+		this.representation = representation;
+	}
+	
+	public double getPercentHealth() {
+		return (double) health / (double) maxHealth;
+	}
+	
+	public void setHealth(int health) {
+		this.health = health;
+	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
 	}
 	
 	public void move(int direction) {

@@ -17,7 +17,7 @@ public class SwingUI extends RogueoidUI {
 	public SwingUI() {
 		
 		frame = new JFrame("Rogueoid "+Rogueoid.VERSION);
-		text = new JTextArea(30, 63);
+		text = new JTextArea(31, 63);
 		text.setFont(new Font("monospaced", Font.PLAIN, 18));
 		text.setBackground(Color.BLACK);
 		text.setForeground(Color.GRAY);
@@ -40,6 +40,7 @@ public class SwingUI extends RogueoidUI {
 	
 	public void setText(String text) {
 		this.text.setText(text);
+		frame.pack();
 	}
 	
 }
