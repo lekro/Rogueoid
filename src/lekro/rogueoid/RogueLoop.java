@@ -23,11 +23,13 @@ public class RogueLoop {
 	}
 	
 	public void loop() {
-		level.getPlayer().tick();
-		for (Entity e : level.getEntities()) {
-			if (!(e instanceof Player)) e.tick();
+		player.tick();
+		if (player.isDesiredMovePossible()) {
+			for (Entity e : level.getEntities()) {
+				if (!(e instanceof Player)) e.tick();
+			}
 		}
-		level.getPlayer().updateDisplay();
+		player.updateDisplay();
 		String display = level.toString() + "\n" + constructPlayerBar();
 		ui.setText(display);
 	}

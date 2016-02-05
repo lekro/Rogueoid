@@ -6,6 +6,7 @@ import lekro.rogueoid.map.Level;
 public class Player extends Entity {
 
 	int direction = -1;
+	boolean couldMove;
 	
 	public Player(int x, int y, Level level) {
 		super(x, y, level, 10);
@@ -17,7 +18,7 @@ public class Player extends Entity {
 	public void tick() {
 		updateDisplay();
 		setHealth(getHealth()-1);
-		move(direction);
+		couldMove = move(direction);
 	}
 	
 	public void updateDisplay() {
@@ -28,6 +29,10 @@ public class Player extends Entity {
 	
 	public void moveLater(int direction) {
 		this.direction = direction;
+	}
+	
+	public boolean isDesiredMovePossible() {
+		return couldMove;
 	}
 
 }

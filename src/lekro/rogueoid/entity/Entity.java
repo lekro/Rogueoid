@@ -66,7 +66,7 @@ public abstract class Entity {
 		return maxHealth;
 	}
 	
-	public void move(int direction) {
+	public boolean move(int direction) {
 		int x = getX();
 		int y = getY();
 		switch (direction) {
@@ -86,7 +86,8 @@ public abstract class Entity {
 		if (getLevel().isValidLocation(x, y)) {
 			setX(x);
 			setY(y);
-		}
+			return true;
+		} else return false;
 	}
 	
 	public Point getCoordinates() {
