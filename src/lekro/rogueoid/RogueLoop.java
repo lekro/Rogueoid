@@ -62,7 +62,7 @@ public class RogueLoop {
 		int healthSpace = (healthWidth - 2)*2/3;
 		int healthBlock = (int) (healthSpace * player.getPercentHealth());
 		for (int i = 0; i < healthSpace; i++) {
-			if (i < healthBlock) bar += RogueoidUI.DARK;
+			if (i < healthBlock) bar += RogueoidUI.BLOCK;
 			else bar += RogueoidUI.LIGHT;
 		}
 		bar += "] ";

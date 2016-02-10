@@ -20,7 +20,7 @@ public class RogueListener implements KeyListener {
 		if (input == KeyEvent.VK_ESCAPE) loop.reset();
 		if (keyAlreadyPressed == input) return;
 		keyAlreadyPressed = input;
-		int direction = (input==KeyEvent.VK_D)?0:(input==KeyEvent.VK_W)?1:(input==KeyEvent.VK_A)?2:(input==KeyEvent.VK_S)?3:-1;
+		int direction = getDirection(input);
 		if (direction != -1) loop.playerInput(direction);
 	}
 
@@ -28,8 +28,12 @@ public class RogueListener implements KeyListener {
 	public void keyReleased(KeyEvent ke) {
 		int input = ke.getKeyCode();
 		keyAlreadyPressed = -1;
-		int direction = (input==KeyEvent.VK_D)?0:(input==KeyEvent.VK_W)?1:(input==KeyEvent.VK_A)?2:(input==KeyEvent.VK_S)?3:-1;
+		int direction = getDirection(input);
 		if (direction != -1) loop.playerInput(-1);
+	}
+	
+	public int getDirection(int input) {
+		return (input==KeyEvent.VK_D)?0:(input==KeyEvent.VK_W)?1:(input==KeyEvent.VK_A)?2:(input==KeyEvent.VK_S)?3:-1;
 	}
 
 	@Override
