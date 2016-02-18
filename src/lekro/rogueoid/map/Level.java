@@ -35,6 +35,7 @@ public class Level {
 	private int height;
 	private int width;
 	private Room[][] rooms;
+	private char[][] charMap;
 	
 	private Set<Entity> entities;
 	
@@ -93,6 +94,34 @@ public class Level {
 			}
 		}
 		
+		charMap = new char[width][height];
+		for (char[] boo : charMap) {
+			Arrays.fill(boo, new Character(EMPTY_SPACE));
+		}
+		
+		for (int i = 0; i < rooms.length; i++) {
+			for (int j = 0; j < rooms[i].length; j++) {
+				Room r = rooms[i][j];
+				
+				if (r == null) continue;
+				
+				for (int x = r.x; x < r.x+r.width; x++) {
+					charMap[x][r.y] = WALL;
+					charMap[x][r.y+r.height-1] = WALL;
+				}
+				for (int y = r.y; y < r.y+r.height; y++) {
+					charMap[r.x][y] = WALL;
+					charMap[r.x+r.width-1][y] = WALL;
+				}
+				
+				for (int x = r.x + 1; x < r.x+r.width - 1; x++) {
+					for (int y = r.y + 1; y < r.y+r.height - 1; y++) {
+						charMap[x][y] = FLOOR;
+					}
+				}
+			}	
+		}
+		
 	}
 	
 	public Point getValidLocation() {
@@ -130,32 +159,10 @@ public class Level {
 	
 	public char[][] toCharArray() {
 
-		char[][] map = new char[width][height];
-		for (char[] boo : map) {
-			Arrays.fill(boo, new Character(EMPTY_SPACE));
-		}
+		char[][] map = new char[charMap.length][charMap[0].length];
 		
-		for (int i = 0; i < rooms.length; i++) {
-			for (int j = 0; j < rooms[i].length; j++) {
-				Room r = rooms[i][j];
-				
-				if (r == null) continue;
-				
-				for (int x = r.x; x < r.x+r.width; x++) {
-					map[x][r.y] = WALL;
-					map[x][r.y+r.height-1] = WALL;
-				}
-				for (int y = r.y; y < r.y+r.height; y++) {
-					map[r.x][y] = WALL;
-					map[r.x+r.width-1][y] = WALL;
-				}
-				
-				for (int x = r.x + 1; x < r.x+r.width - 1; x++) {
-					for (int y = r.y + 1; y < r.y+r.height - 1; y++) {
-						map[x][y] = FLOOR;
-					}
-				}
-			}	
+		for (int i = 0; i < charMap.length; i++) {
+			System.arraycopy(charMap[i], 0, map[i], 0, charMap[i].length);
 		}
 		
 		for (Entity e : entities) {
