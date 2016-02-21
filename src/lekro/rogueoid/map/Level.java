@@ -35,6 +35,7 @@ public class Level {
 	private int height;
 	private int width;
 	private Room[][] rooms;
+	private Set<Path> paths;
 	private char[][] charMap;
 	
 	private Set<Entity> entities;
@@ -49,8 +50,11 @@ public class Level {
 		
 		Random random = new Random();
 		rooms = new Room[SECTOR_COUNT_X][SECTOR_COUNT_Y];
+		paths = new HashSet<Path>();
 		
 		int deleteQuota = ROOM_SKIP_MAX;
+		
+		// Generate (or not) the rooms
 		
 		for (int i = 0; i < rooms.length; i++) {
 			for (int j = 0; j < rooms[i].length; j++) {
@@ -81,9 +85,25 @@ public class Level {
 				rooms[i][j] = new Room(roomX, roomY, roomHeight, roomWidth);
 			}
 		}
-		Path p = null;
-		if (rooms[0][0] != null && rooms[0][1] != null)
-			p = new Path(rooms[0][0], rooms[0][1]);
+
+		// Generate paths:
+		// Paths in Y-direction:
+		
+		for (int i = 0; i < rooms.length; i++) {
+			for (int j = 0; j < rooms[i].length - 1; j++) {
+				if (rooms[i][j] != null && rooms[i][j+1] != null)
+					paths.add(new Path(rooms[i][j], rooms[i][j+1]));
+			}
+		}
+		
+		// Paths in X-direction:
+		
+		for (int i = 0; i < rooms.length - 1; i++) {
+			for (int j = 0; j < rooms[i].length; j++) {
+				if (rooms[i][j] != null && rooms[i+1][j] != null)
+					paths.add(new Path(rooms[i][j], rooms[i+1][j]));
+			}
+		}
 		
 		entities = new HashSet<Entity>();
 		
@@ -127,7 +147,7 @@ public class Level {
 			}	
 		}
 		
-		if (p != null) p.displayCharMap(charMap);
+		for (Path p : paths) p.displayCharMap(charMap);
 		
 	}
 	
