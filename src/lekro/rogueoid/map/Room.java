@@ -2,7 +2,7 @@ package lekro.rogueoid.map;
 
 public class Room {
 	public int height, width, x, y;
-	
+
 	public Room(int x, int y, int height, int width) {
 		this.height = height;
 		this.width = width;
@@ -12,6 +12,22 @@ public class Room {
 	
 	public String toString() {
 		return width+"x"+height+" at ("+x+", "+y+")";
+	}
+	
+	public int getHeight() {
+		return height;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
 	}
 	
 }

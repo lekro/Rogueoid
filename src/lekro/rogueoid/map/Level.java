@@ -71,8 +71,8 @@ public class Level {
 				while (true) {
 					roomHeight = RogueMath.roll(sectorHeight / 2, sectorHeight);
 					roomWidth = RogueMath.roll(sectorWidth / 2, sectorWidth);
-					if (!(roomHeight < 5 || roomHeight >= sectorHeight - 1
-							|| roomWidth < 5 || roomWidth >= sectorWidth - 1)) {
+					if (!(roomHeight < 5 || roomHeight >= sectorHeight - 2
+							|| roomWidth < 5 || roomWidth >= sectorWidth - 2)) {
 						break;
 					}
 				}
@@ -81,8 +81,13 @@ public class Level {
 				rooms[i][j] = new Room(roomX, roomY, roomHeight, roomWidth);
 			}
 		}
+		Path p = null;
+		if (rooms[0][0] != null && rooms[0][1] != null)
+			p = new Path(rooms[0][0], rooms[0][1]);
 		
 		entities = new HashSet<Entity>();
+		
+		// We are placing exactly one monster in a room (for now) :
 		
 		for (Room[] rms : rooms) {
 			for (Room r : rms) {
@@ -121,6 +126,8 @@ public class Level {
 				}
 			}	
 		}
+		
+		if (p != null) p.displayCharMap(charMap);
 		
 	}
 	
