@@ -99,13 +99,13 @@ public class Path {
 			if (leftA) {
 				startX = aX + daX;
 				endX = bX;
-				startY = aY + rand.nextInt(daY) + 1;
-				endY = bY + rand.nextInt(dbY) + 1;
+				startY = aY + rand.nextInt(daY-1) + 1;
+				endY = bY + rand.nextInt(dbY-1) + 1;
 			} else {
 				startX = bX + dbX;
 				endX = aX;
-				startY = bY + rand.nextInt(dbY) + 1;
-				endY = aY + rand.nextInt(daY) + 1;
+				startY = bY + rand.nextInt(dbY-3) + 1;
+				endY = aY + rand.nextInt(daY-3) + 1;
 			}
 			
 			middle = rand.nextInt(endX - startX - 1) + startX;
@@ -115,13 +115,13 @@ public class Path {
 			if (upA) {
 				startY = aY + daY;
 				endY = bY;
-				startX = aX + rand.nextInt(daX) + 1;
-				endX = bX + rand.nextInt(dbX) + 1;
+				startX = aX + rand.nextInt(daX-3) + 2;
+				endX = bX + rand.nextInt(dbX-3) + 2;
 			} else {
 				startY = bY + dbY;
 				endY = aY;
-				startX = bX + rand.nextInt(dbX) + 1;
-				endX = aX + rand.nextInt(daX) + 1;
+				startX = bX + rand.nextInt(dbX-3) +2;
+				endX = aX + rand.nextInt(daX-3) + 2;
 			}
 			
 			middle = rand.nextInt(endY - startY - 1) + startY;
@@ -130,8 +130,6 @@ public class Path {
 		
 		start = new Point(startX, startY);
 		end = new Point(endX, endY);
-		
-		System.out.println(start + " // " + end + " // "+ middle);
 		
 	}
 	
@@ -155,11 +153,13 @@ public class Path {
 		
 		if (dir) {
 			for (; x <= middle; x++) out[x][y] = Level.FLOOR; 
-			for (; y <= end.y; y++) out[x][y] = Level.FLOOR; 
+			if (y <= end.y) for (; y <= end.y; y++) out[x][y] = Level.FLOOR; 
+			else for (; y >= end.y; y--) out[x][y] = Level.FLOOR; 
 			for (; x <= end.x; x++) out[x][y] = Level.FLOOR;
 		} else {
 			for (; y <= middle; y++) out[x][y] = Level.FLOOR;
-			for (; x <= end.x; x++) out[x][y] = Level.FLOOR; 
+			if (x <= end.x) for (; x <= end.x; x++) out[x][y] = Level.FLOOR;
+			else for (; x >= end.x; x--) out[x][y] = Level.FLOOR; 
 			for (; y <= end.y; y++) out[x][y] = Level.FLOOR;
 		}
 	}

@@ -17,7 +17,7 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		updateDisplay();
-		setHealth(getHealth()-1);
+		//setHealth(getHealth()-1);
 		couldMove = move(direction);
 	}
 	
