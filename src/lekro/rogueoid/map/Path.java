@@ -99,13 +99,13 @@ public class Path {
 			if (leftA) {
 				startX = aX + daX;
 				endX = bX;
-				startY = aY + rand.nextInt(daY-1) + 1;
-				endY = bY + rand.nextInt(dbY-1) + 1;
+				startY = aY + rand.nextInt(daY-3) + 2;
+				endY = bY + rand.nextInt(dbY-3) + 2;
 			} else {
 				startX = bX + dbX;
 				endX = aX;
-				startY = bY + rand.nextInt(dbY-3) + 1;
-				endY = aY + rand.nextInt(daY-3) + 1;
+				startY = bY + rand.nextInt(dbY-3) + 2;
+				endY = aY + rand.nextInt(daY-3) + 2;
 			}
 			
 			middle = rand.nextInt(endX - startX - 1) + startX;
