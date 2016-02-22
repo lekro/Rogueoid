@@ -151,16 +151,23 @@ public class Path {
 		
 		boolean dir = direction == 0;
 		
+		char pathFloor = Level.PATH_FLOOR;
+		char door = Level.DOOR;
+		
 		if (dir) {
-			for (; x <= middle; x++) out[x][y] = Level.FLOOR; 
-			if (y <= end.y) for (; y <= end.y; y++) out[x][y] = Level.FLOOR; 
-			else for (; y >= end.y; y--) out[x][y] = Level.FLOOR; 
-			for (; x <= end.x; x++) out[x][y] = Level.FLOOR;
+			out[x++][y] = door;
+			for (; x <= middle; x++) out[x][y] = pathFloor; 
+			if (y <= end.y) for (; y <= end.y; y++) out[x][y] = pathFloor; 
+			else for (; y >= end.y; y--) out[x][y] = pathFloor; 
+			for (; x < end.x; x++) out[x][y] = pathFloor;
+			out[x][y] = door;
 		} else {
-			for (; y <= middle; y++) out[x][y] = Level.FLOOR;
-			if (x <= end.x) for (; x <= end.x; x++) out[x][y] = Level.FLOOR;
-			else for (; x >= end.x; x--) out[x][y] = Level.FLOOR; 
-			for (; y <= end.y; y++) out[x][y] = Level.FLOOR;
+			out[x][y++] = door;
+			for (; y <= middle; y++) out[x][y] = pathFloor;
+			if (x <= end.x) for (; x <= end.x; x++) out[x][y] = pathFloor;
+			else for (; x >= end.x; x--) out[x][y] = pathFloor; 
+			for (; y < end.y; y++) out[x][y] = pathFloor;
+			out[x][y] = door;
 		}
 	}
 	

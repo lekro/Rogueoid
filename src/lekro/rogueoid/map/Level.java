@@ -19,15 +19,23 @@ public class Level {
 	public static final int SECTOR_COUNT_Y = 3;
 	
 	public static final char EMPTY_SPACE = ' ';
-	public static final char EMPTY_SPACE_FULLWIDTH = 0x3000;
-	public static final char WALL = '#';
-	public static final char WALL_FULLWIDTH = 0xFF03;
+	public static final char WALL_X = '-';
+	public static final char WALL_Y = '|';
+	public static final char CORNER_1 = '0';
+	public static final char CORNER_2 = '0';
 	public static final char FLOOR = '.';
-	public static final char FLOOR_FULLWIDTH = 0xFF0A;
+	public static final char PATH_FLOOR = '*';
+	public static final char DOOR = '+';
 	public static final char MOB = 'M';
-	public static final char MOB_FULLWIDTH = 0xFF2D;
 	public static final char PLAYER = 'O';
-	public static final char PLAYER_FULLWIDTH = 0xFF2F;
+	
+	public static final Set<Character> PASSABLE = new HashSet<Character>();
+	
+	static {
+		PASSABLE.add(FLOOR);
+		PASSABLE.add(PATH_FLOOR);
+		PASSABLE.add(DOOR);
+	}
 	
 	public static final int ROOM_SKIP_CHANCE = 10;
 	public static final int ROOM_SKIP_MAX = 2;
@@ -131,13 +139,16 @@ public class Level {
 				if (r == null) continue;
 				
 				for (int x = r.x; x < r.x+r.width; x++) {
-					charMap[x][r.y] = WALL;
-					charMap[x][r.y+r.height-1] = WALL;
+					charMap[x][r.y] = WALL_X;
+					charMap[x][r.y+r.height-1] = WALL_X;
 				}
 				for (int y = r.y; y < r.y+r.height; y++) {
-					charMap[r.x][y] = WALL;
-					charMap[r.x+r.width-1][y] = WALL;
+					charMap[r.x][y] = WALL_Y;
+					charMap[r.x+r.width-1][y] = WALL_Y;
 				}
+				
+				charMap[r.x][r.y] = charMap[r.x+r.width-1][r.y+r.height-1] = CORNER_1;
+				charMap[r.x][r.y+r.height-1] = charMap[r.x+r.width-1][r.y] = CORNER_2;
 				
 				for (int x = r.x + 1; x < r.x+r.width - 1; x++) {
 					for (int y = r.y + 1; y < r.y+r.height - 1; y++) {
@@ -180,7 +191,7 @@ public class Level {
 		}
 		*/
 		char[][] map = toCharArray();
-		if (map[x][y] == '.') return true;
+		if (PASSABLE.contains(map[x][y])) return true;
 		return false;
 	}
 	
