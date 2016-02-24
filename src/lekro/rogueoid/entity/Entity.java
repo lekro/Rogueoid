@@ -3,6 +3,7 @@ package lekro.rogueoid.entity;
 import java.awt.Point;
 import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 
 import lekro.rogueoid.map.Level;
 
@@ -14,6 +15,9 @@ public abstract class Entity {
 	private int health;
 	private int maxHealth;
 	private char representation;
+	private String name;
+
+	private UUID uuid;
 	
 	public Entity(int x, int y, Level level, int maxHealth) {
 		setX(x);
@@ -22,6 +26,8 @@ public abstract class Entity {
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
 		setRepresentation('E');
+		uuid = UUID.randomUUID();
+		name = "Generic Entity"; // This is our default name
 		rand = new Random();
 	}
 	
@@ -49,6 +55,22 @@ public abstract class Entity {
 	
 	public int getHealth() {
 		return health;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getLittleIdentifier() {
+		return uuid.toString().substring(0, 8);
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public UUID getUUID() {
+		return uuid;
 	}
 	
 	public char getRepresentation() {
@@ -95,11 +117,19 @@ public abstract class Entity {
 		} else {
 			Set<Entity> entities = getLevel().getEntitiesAtLocation(x, y);
 			if (entities.size() > 0) {
-				// TODO attack here
-				System.out.println(this+" attacks "+entities);
+				for (Entity e : entities) {
+					attack(e);
+				}
 				return true;
 			} else return false;
 		}
+	}
+	
+	public void attack(Entity other) {
+		System.out.println(this+" attacks "+other);
+		other.setHealth(other.getHealth() - 1);
+		
+		// TODO implement some proper attack / defense formulae
 	}
 	
 	public Point getCoordinates() {
@@ -112,6 +142,11 @@ public abstract class Entity {
 	
 	public Level getLevel() {
 		return level;
+	}
+	
+	@Override
+	public String toString() {
+		return getName() + " at ("+getX()+", "+getY()+") with "+getHealth()+"/"+getMaxHealth()+" HP {"+getLittleIdentifier()+"}";
 	}
 	
 }

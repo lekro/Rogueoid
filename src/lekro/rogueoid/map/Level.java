@@ -180,16 +180,6 @@ public class Level {
 	}
 	
 	public boolean isValidLocation(int x, int y) {
-		/*
-		for (Room[] rm : rooms) {
-			for (Room r : rm) {
-				if (r == null) continue;
-				if (y > r.y && y < r.y+r.height - 1 && x > r.x && x < r.x+width - 1) {
-					return true;
-				}
-			}
-		}
-		*/
 		char[][] map = toCharArray();
 		if (PASSABLE.contains(map[x][y])) return true;
 		return false;

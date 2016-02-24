@@ -11,12 +11,14 @@ public class Monster extends Entity {
 	public Monster(int x, int y, Level level) {
 		super(x, y, level, 5);
 		setRepresentation(Level.MOB);
+		setName("Scary Monster");
 		direction = getRand().nextInt(4);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void tick() {
+		if (getHealth() <= 0) getLevel().getEntities().remove(this);
 		boolean possible;
 		do {
 			possible = move(direction);
