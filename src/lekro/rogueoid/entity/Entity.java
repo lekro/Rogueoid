@@ -2,6 +2,7 @@ package lekro.rogueoid.entity;
 
 import java.awt.Point;
 import java.util.Random;
+import java.util.Set;
 
 import lekro.rogueoid.map.Level;
 
@@ -20,7 +21,7 @@ public abstract class Entity {
 		this.level = level;
 		this.maxHealth = maxHealth;
 		this.health = maxHealth;
-		this.representation = 'E';
+		setRepresentation('E');
 		rand = new Random();
 	}
 	
@@ -32,6 +33,10 @@ public abstract class Entity {
 	
 	public int getY() {
 		return y;
+	}
+	
+	public Point getLocation() {
+		return new Point(x, y);
 	}
 	
 	public void setX(int x) {
@@ -87,7 +92,14 @@ public abstract class Entity {
 			setX(x);
 			setY(y);
 			return true;
-		} else return false;
+		} else {
+			Set<Entity> entities = getLevel().getEntitiesAtLocation(x, y);
+			if (entities.size() > 0) {
+				// TODO attack here
+				System.out.println(this+" attacks "+entities);
+				return true;
+			} else return false;
+		}
 	}
 	
 	public Point getCoordinates() {

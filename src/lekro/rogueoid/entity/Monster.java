@@ -17,33 +17,15 @@ public class Monster extends Entity {
 
 	@Override
 	public void tick() {
-		int x = getX();
-		int y = getY();
+		boolean possible;
 		do {
-			x = getX();
-			y = getY();
-			switch (direction) {
-			case 0: // 0 radians
-				x++;
-				break;
-			case 1: // pi/2 radians
-				y++;
-				break;
-			case 2: // pi radians
-				x--;
-				break;
-			case 3: // 3*pi/2 radians
-				y--;
-				break;
-			}
+			possible = move(direction);
 			stale++;
-			if (!getLevel().isValidLocation(x, y) || stale > 3) {
+			if (!possible || stale > 3) {
 				direction = getRand().nextInt(4);
 				stale = 0;
 			}
-		} while(!getLevel().isValidLocation(x, y));
-		setX(x);
-		setY(y);
+		} while (!possible);
 	}
 
 }

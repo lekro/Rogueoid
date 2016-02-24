@@ -238,6 +238,16 @@ public class Level {
 		return entities;
 	}
 	
+	public Set<Entity> getEntitiesAtLocation(int x, int y) {
+		Set<Entity> foundEntities = new HashSet<Entity>();
+		for (Entity e : entities) {
+			if (e.getX() == x && e.getY() == y) {
+				foundEntities.add(e);
+			}
+		}
+		return foundEntities;
+	}
+	
 	public Player getPlayer() {
 		for (Entity e : getEntities()) {
 			if (e instanceof Player) return (Player) e;
