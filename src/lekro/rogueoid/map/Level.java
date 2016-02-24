@@ -24,7 +24,7 @@ public class Level {
 	public static final char CORNER_1 = '0';
 	public static final char CORNER_2 = '0';
 	public static final char FLOOR = '.';
-	public static final char PATH_FLOOR = '*';
+	public static final char PATH_FLOOR = '#';
 	public static final char DOOR = '+';
 	public static final char MOB = 'M';
 	public static final char PLAYER = 'O';
@@ -45,6 +45,7 @@ public class Level {
 	private Room[][] rooms;
 	private Set<Path> paths;
 	private char[][] charMap;
+	private boolean[][] fogOfWar;
 	
 	private Set<Entity> entities;
 	
@@ -128,6 +129,7 @@ public class Level {
 		}
 		
 		charMap = new char[width][height];
+		
 		for (char[] boo : charMap) {
 			Arrays.fill(boo, new Character(EMPTY_SPACE));
 		}
@@ -159,6 +161,9 @@ public class Level {
 		}
 		
 		for (Path p : paths) p.displayCharMap(charMap);
+		
+		fogOfWar = new boolean[charMap.length][charMap[0].length];
+		
 		
 	}
 	
@@ -200,8 +205,23 @@ public class Level {
 		return map;
 	}
 	
-	public String toString() {
+	public boolean[][] getFogOfWar() {
+		return fogOfWar;
+	}
+	
+	public char[][] applyFogOfWar() {
 		char[][] map = toCharArray();
+		boolean[][] fow = getFogOfWar();
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[i].length; j++) {
+				map[i][j] = (fow[i][j]) ? map[i][j] : EMPTY_SPACE;
+			}
+		}
+		return map;
+	}
+	
+	public String toString() {
+		char[][] map = applyFogOfWar();
 		StringBuilder sb = new StringBuilder((height+1)*width);
 		for (int i = 0; i < map[0].length; i++) {
 			for (int j = 0; j < map.length; j++) {

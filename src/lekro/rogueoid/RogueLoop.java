@@ -13,7 +13,7 @@ public class RogueLoop {
 	Player player;
 	RogueoidUI ui;
 	
-	
+	boolean progress = false;
 	
 	public RogueLoop(Level l, RogueoidUI ui) {
 		level = l;
@@ -23,6 +23,7 @@ public class RogueLoop {
 	}
 	
 	public void loop() {
+		progress = true;
 		player.tick();
 		if (player.isDesiredMovePossible()) {
 			for (Entity e : level.getEntities()) {
@@ -32,12 +33,16 @@ public class RogueLoop {
 		player.updateDisplay();
 		String display = level.toString() + "\n" + constructPlayerBar();
 		ui.setText(display);
+		progress = false;
 	}
 	
 	public void playerInput(int input) {
 		if (player.getHealth() <= 0) return;
 		player.moveLater(input);
 		if (input != -1) {
+			while (progress) {
+				
+			}
 			loop();
 		}
 	}

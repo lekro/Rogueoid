@@ -10,6 +10,7 @@ public class Player extends Entity {
 	
 	public Player(int x, int y, Level level) {
 		super(x, y, level, 10);
+		level.getFogOfWar()[x][y] = true;
 		setRepresentation(Level.PLAYER);
 		setName("Player");
 		// TODO Auto-generated constructor stub
@@ -20,6 +21,7 @@ public class Player extends Entity {
 		updateDisplay();
 		//setHealth(getHealth()-1);
 		couldMove = move(direction);
+		getLevel().getFogOfWar()[getX()][getY()] = true;
 	}
 	
 	public void updateDisplay() {
