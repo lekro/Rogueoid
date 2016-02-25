@@ -33,6 +33,8 @@ public abstract class Entity {
 	
 	public abstract void tick();
 	
+	public abstract void handleHealthChange();
+	
 	public int getX() {
 		return x;
 	}
@@ -128,7 +130,7 @@ public abstract class Entity {
 	public void attack(Entity other) {
 		System.out.println(this+" attacks "+other);
 		other.setHealth(other.getHealth() - 1);
-		
+		other.handleHealthChange();
 		// TODO implement some proper attack / defense formulae
 	}
 	

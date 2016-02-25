@@ -10,7 +10,7 @@ public class Player extends Entity {
 	
 	public Player(int x, int y, Level level) {
 		super(x, y, level, 10);
-		level.getFogOfWar()[x][y] = true;
+		getLevel().discoverLand(getX(), getY());
 		setRepresentation(Level.PLAYER);
 		setName("Player");
 		// TODO Auto-generated constructor stub
@@ -21,7 +21,7 @@ public class Player extends Entity {
 		updateDisplay();
 		//setHealth(getHealth()-1);
 		couldMove = move(direction);
-		getLevel().getFogOfWar()[getX()][getY()] = true;
+		getLevel().discoverLand(getX(), getY());
 	}
 	
 	public void updateDisplay() {
@@ -36,6 +36,11 @@ public class Player extends Entity {
 	
 	public boolean isDesiredMovePossible() {
 		return couldMove;
+	}
+
+	@Override
+	public void handleHealthChange() {
+		updateDisplay();
 	}
 
 }

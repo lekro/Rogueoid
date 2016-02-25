@@ -18,7 +18,6 @@ public class Monster extends Entity {
 
 	@Override
 	public void tick() {
-		if (getHealth() <= 0) getLevel().getEntities().remove(this);
 		boolean possible;
 		do {
 			possible = move(direction);
@@ -28,6 +27,17 @@ public class Monster extends Entity {
 				stale = 0;
 			}
 		} while (!possible);
+	}
+
+	@Override
+	public void handleHealthChange() {
+		if (getHealth() <= 0) getLevel().getEntities().remove(this);
+	}
+	
+	@Override
+	public void attack(Entity other) {
+		if (other instanceof Monster) return;
+		super.attack(other);
 	}
 
 }

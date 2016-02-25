@@ -220,6 +220,35 @@ public class Level {
 		return map;
 	}
 	
+	public void discoverLand(int x, int y) {
+		
+		int r = 2;
+		
+		for (int i = x-r; i <= x+r; i++) {
+			for (int j = y-r; j <= y+r; j++) {
+				discoverTile(i, j);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * "Discover" one tile, i.e., allow the player to see it.
+	 * 
+	 * @param x - the X coordinate of the tile to be discovered
+	 * @param y - the Y coordinate of the tile to be discovered
+	 * @return if the tile was existent & changed
+	 */
+	public boolean discoverTile(int x, int y) {
+		boolean[][] fow = getFogOfWar();
+		if (x > fow.length || x < 0 || y > fow[x].length || y < 0) return false;
+		else {
+			boolean old = fow[x][y];
+			fow[x][y] = true;
+			return old != fow[x][y];
+		}
+	}
+	
 	public String toString() {
 		char[][] map = applyFogOfWar();
 		StringBuilder sb = new StringBuilder((height+1)*width);
