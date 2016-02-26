@@ -37,6 +37,14 @@ public class Level {
 		PASSABLE.add(DOOR);
 	}
 	
+	public static final Set<Character> TRANSPARENT = new HashSet<Character>();
+	
+	static {
+		TRANSPARENT.add(FLOOR);
+		TRANSPARENT.add(PATH_FLOOR);
+		TRANSPARENT.add(DOOR);
+	}
+	
 	public static final int ROOM_SKIP_CHANCE = 10;
 	public static final int ROOM_SKIP_MAX = 2;
 	
@@ -91,7 +99,7 @@ public class Level {
 				}
 				int roomY = random.nextInt(sectorHeight - roomHeight) + j*sectorHeight;
 				int roomX = random.nextInt(sectorWidth - roomWidth) + i*sectorWidth;
-				rooms[i][j] = new Room(roomX, roomY, roomHeight, roomWidth);
+				rooms[i][j] = new Room(roomX, roomY, roomWidth, roomHeight);
 			}
 		}
 
@@ -184,6 +192,16 @@ public class Level {
 		return p;
 	}
 	
+	public Room getRoom(int x, int y) {
+		for (Room[] rms : rooms) {
+			for (Room r : rms) {
+				if (r == null) continue;
+				if (r.contains(x, y)) return r;
+			}
+		}
+		return null;
+	}
+	
 	public boolean isValidLocation(int x, int y) {
 		char[][] map = toCharArray();
 		if (PASSABLE.contains(map[x][y])) return true;
@@ -222,7 +240,18 @@ public class Level {
 	
 	public void discoverLand(int x, int y) {
 		
+		Room room = getRoom(x, y);
+		if (room != null && !room.isFound()) {
+			for (int i = room.x; i < room.x + room.width; i++) {
+				for (int j = room.y; j < room.y + room.height; j++) {
+					discoverTile(i, j);
+				}
+			}
+		}
+		
 		int r = 2;
+		
+		// TODO figure out FoV here
 		
 		for (int i = x-r; i <= x+r; i++) {
 			for (int j = y-r; j <= y+r; j++) {

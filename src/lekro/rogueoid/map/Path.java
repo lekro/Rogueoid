@@ -19,15 +19,15 @@ public class Path {
 		// Assuming a and b aren't null.
 		// It also helps if the rooms are adjacent, though this is not necessary.
 		
-		int aX = a.getX();
-		int aY = a.getY();
-		int daX = a.getWidth()-1;
-		int daY = a.getHeight()-1;
+		int aX = a.x;
+		int aY = a.y;
+		int daX = a.width - 1;
+		int daY = a.height - 1;
 		
-		int bX = b.getX();
-		int bY = b.getY();
-		int dbX = b.getWidth()-1;
-		int dbY = b.getHeight()-1;
+		int bX = b.x;
+		int bY = b.y;
+		int dbX = b.width - 1;
+		int dbY = b.height - 1;
 		
 		// Checking if the rooms overlap, if so, we're not making a path.
 		// Let's do this with booleans, so we don't get this super large
@@ -38,9 +38,7 @@ public class Path {
 		boolean upA =   (aY + daY < bY); // A above B
 		boolean upB =   (bY + dbY < aY); // B above A
 		
-		boolean overlap = !(leftA || leftB || upA || upB);
-		
-		if (overlap) throw new IllegalArgumentException("Rooms overlap!");
+		if (a.intersects(b)) throw new IllegalArgumentException("Rooms overlap!");
 		
 		// Okay, now that we got that out of the way,
 		// let's figure out what direction we're going.
