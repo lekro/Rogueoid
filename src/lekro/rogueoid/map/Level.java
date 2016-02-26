@@ -10,6 +10,7 @@ import lekro.rogueoid.RogueMath;
 import lekro.rogueoid.entity.Entity;
 import lekro.rogueoid.entity.Monster;
 import lekro.rogueoid.entity.Player;
+import lekro.rogueoid.entity.attributes.VisionLevel;
 
 public class Level {
 
@@ -56,6 +57,7 @@ public class Level {
 	private boolean[][] fogOfWar;
 	
 	private Set<Entity> entities;
+	private Player player;
 	
 	public Level() {
 		this(DEFAULT_HEIGHT, DEFAULT_WIDTH);
@@ -229,6 +231,7 @@ public class Level {
 	
 	public char[][] applyFogOfWar() {
 		char[][] map = toCharArray();
+		if (getPlayer().getVisionLevel().equals(VisionLevel.OMNISCIENT)) return map;
 		boolean[][] fow = getFogOfWar();
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
@@ -240,8 +243,10 @@ public class Level {
 	
 	public void discoverLand(int x, int y) {
 		
+		VisionLevel v = getPlayer().getVisionLevel();
+		
 		Room room = getRoom(x, y);
-		if (room != null && !room.isFound()) {
+		if (room != null && !room.isFound() && v.seeRooms()) {
 			room.find();
 			for (int i = room.x; i < room.x + room.width; i++) {
 				for (int j = room.y; j < room.y + room.height; j++) {
@@ -249,12 +254,13 @@ public class Level {
 				}
 			}
 		}
-		
-		// This code is for seeing only one tile away, except in rooms:
-		for (int i = -1; i <= 1; i++) {
-			discoverTile(x+i, y);
-			discoverTile(x, y+i);
-		}
+		if (v.seeAdjacent()) {
+			// This code is for seeing only one tile away, except in rooms:
+			for (int i = -1; i <= 1; i++) {
+				discoverTile(x+i, y);
+				discoverTile(x, y+i);
+			}
+		} else discoverTile(x, y);
 		
 		
 		// This code is for seeing around in a square:
@@ -327,9 +333,11 @@ public class Level {
 	
 	public Player getPlayer() {
 		for (Entity e : getEntities()) {
-			if (e instanceof Player) return (Player) e;
+			if (e instanceof Player) {
+				player = (Player) e;
+			}
 		}
-		return null;
+		return player;
 	}
 	
 }

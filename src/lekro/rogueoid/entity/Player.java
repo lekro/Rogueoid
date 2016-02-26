@@ -1,19 +1,25 @@
 package lekro.rogueoid.entity;
 
+import lekro.rogueoid.entity.attributes.MapLevel;
+import lekro.rogueoid.entity.attributes.VisionLevel;
 import lekro.rogueoid.map.Level;
 
 
 public class Player extends Entity {
 
-	int direction = -1;
-	boolean couldMove;
+	private int direction = -1;
+	private boolean couldMove;
+	
+	// TODO select following based on some parameters:
+	private MapLevel mapLevel = MapLevel.MARAUDERS;
+	private VisionLevel visionLevel = VisionLevel.LIT;
 	
 	public Player(int x, int y, Level level) {
 		super(x, y, level, 10);
+		level.getEntities().add(this);
 		getLevel().discoverLand(getX(), getY());
 		setRepresentation(Level.PLAYER);
 		setName("Player");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -41,6 +47,14 @@ public class Player extends Entity {
 	@Override
 	public void handleHealthChange() {
 		updateDisplay();
+	}
+
+	public MapLevel getMapLevel() {
+		return mapLevel;
+	}
+
+	public VisionLevel getVisionLevel() {
+		return visionLevel;
 	}
 
 }
