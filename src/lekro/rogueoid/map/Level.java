@@ -242,6 +242,7 @@ public class Level {
 		
 		Room room = getRoom(x, y);
 		if (room != null && !room.isFound()) {
+			room.find();
 			for (int i = room.x; i < room.x + room.width; i++) {
 				for (int j = room.y; j < room.y + room.height; j++) {
 					discoverTile(i, j);
@@ -249,15 +250,23 @@ public class Level {
 			}
 		}
 		
-		int r = 2;
+		// This code is for seeing only one tile away, except in rooms:
+		for (int i = -1; i <= 1; i++) {
+			discoverTile(x+i, y);
+			discoverTile(x, y+i);
+		}
 		
-		// TODO figure out FoV here
 		
+		// This code is for seeing around in a square:
+		/*
+		
+		int r = 1;
 		for (int i = x-r; i <= x+r; i++) {
 			for (int j = y-r; j <= y+r; j++) {
 				discoverTile(i, j);
 			}
 		}
+		*/
 	}
 	
 	/**
