@@ -31,10 +31,10 @@ public enum VisionLevel {
 	}
 	
 	public boolean seeRooms() {
-		return getLevel() >= VisionLevel.LIT.getLevel();
+		return getLevel() >= LIT.getLevel();
 	}
 	
 	public boolean seeAdjacent() {
-		return getLevel() >= VisionLevel.LANTERN.getLevel();
+		return getLevel() >= LANTERN.getLevel();
 	}
 }

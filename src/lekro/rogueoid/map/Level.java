@@ -10,6 +10,7 @@ import lekro.rogueoid.RogueMath;
 import lekro.rogueoid.entity.Entity;
 import lekro.rogueoid.entity.Monster;
 import lekro.rogueoid.entity.Player;
+import lekro.rogueoid.entity.attributes.MapLevel;
 import lekro.rogueoid.entity.attributes.VisionLevel;
 
 public class Level {
@@ -229,6 +230,10 @@ public class Level {
 		return fogOfWar;
 	}
 	
+	public void clearFogOfWar() {
+		fogOfWar = new boolean[fogOfWar.length][fogOfWar[0].length];
+	}
+	
 	public char[][] applyFogOfWar() {
 		char[][] map = toCharArray();
 		if (getPlayer().getVisionLevel().equals(VisionLevel.OMNISCIENT)) return map;
@@ -243,10 +248,28 @@ public class Level {
 	
 	public void discoverLand(int x, int y) {
 		
-		VisionLevel v = getPlayer().getVisionLevel();
+		Player player = getPlayer();
+		VisionLevel v = player.getVisionLevel();
+		MapLevel m = player.getMapLevel();
+		
+		if (m.equals(MapLevel.MAPLESS)) clearFogOfWar();
 		
 		Room room = getRoom(x, y);
-		if (room != null && !room.isFound() && v.seeRooms()) {
+		
+		// TODO implement the following better:
+		// (different layers for the fog of war need to be stored
+		// and intersected in this case!)
+		
+		if (m.isForgetful()) {
+			if (player.getMapAge() > m.getForgetfulness()) {
+				clearFogOfWar();
+				player.resetMapAge();
+			} else {
+				player.incrementMapAge();
+			}
+		}
+		
+		if (room != null && (m.isForgetful() || !room.isFound()) && v.seeRooms()) {
 			room.find();
 			for (int i = room.x; i < room.x + room.width; i++) {
 				for (int j = room.y; j < room.y + room.height; j++) {

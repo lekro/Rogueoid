@@ -23,6 +23,8 @@ public enum MapLevel {
 	 */
 	MARAUDERS(40);
 	
+	// TODO implement NORMAL map / make entities not visible anywhere in the map
+	
 	private int level;
 	
 	private MapLevel(int level) {
@@ -31,6 +33,18 @@ public enum MapLevel {
 	
 	public int getLevel() {
 		return level;
+	}
+	
+	public boolean isForgetful() {
+		return getLevel() < NORMAL.getLevel();
+	}
+	
+	public int getForgetfulness() {
+		switch(this) {
+		case AMNESIAC: return 2;
+		case FORGETFUL: return 3;
+		default: return -1;
+		}
 	}
 	
 }

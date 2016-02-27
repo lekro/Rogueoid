@@ -9,9 +9,10 @@ public class Player extends Entity {
 
 	private int direction = -1;
 	private boolean couldMove;
+	private int mapAge;
 	
 	// TODO select following based on some parameters:
-	private MapLevel mapLevel = MapLevel.MARAUDERS;
+	private MapLevel mapLevel = MapLevel.AMNESIAC;
 	private VisionLevel visionLevel = VisionLevel.LIT;
 	
 	public Player(int x, int y, Level level) {
@@ -55,6 +56,18 @@ public class Player extends Entity {
 
 	public VisionLevel getVisionLevel() {
 		return visionLevel;
+	}
+
+	public int getMapAge() {
+		return mapAge;
+	}
+
+	public void resetMapAge() {
+		this.mapAge = 0;
+	}
+
+	public void incrementMapAge() {
+		this.mapAge++;
 	}
 
 }
