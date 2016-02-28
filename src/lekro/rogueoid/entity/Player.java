@@ -3,6 +3,8 @@ package lekro.rogueoid.entity;
 import lekro.rogueoid.entity.attributes.MapLevel;
 import lekro.rogueoid.entity.attributes.VisionLevel;
 import lekro.rogueoid.map.Level;
+import lekro.rogueoid.map.Room;
+import lekro.rogueoid.map.mask.MapMask;
 
 
 public class Player extends Entity {
@@ -12,13 +14,16 @@ public class Player extends Entity {
 	private int mapAge;
 	
 	// TODO select following based on some parameters:
-	private MapLevel mapLevel = MapLevel.AMNESIAC;
+	private MapLevel mapLevel = MapLevel.MARAUDERS;
 	private VisionLevel visionLevel = VisionLevel.LIT;
+	
+	private MapMask mask;
 	
 	public Player(int x, int y, Level level) {
 		super(x, y, level, 10);
 		level.getEntities().add(this);
-		getLevel().discoverLand(getX(), getY());
+		mask = getMapLevel().toMapMask(level.getWidth(), level.getHeight());
+		discoverLand(getX(), getY());
 		setRepresentation(Level.PLAYER);
 		setName("Player");
 	}
@@ -26,9 +31,56 @@ public class Player extends Entity {
 	@Override
 	public void tick() {
 		updateDisplay();
-		//setHealth(getHealth()-1);
 		couldMove = move(direction);
-		getLevel().discoverLand(getX(), getY());
+		if (couldMove) discoverLand(getX(), getY());
+	}
+	
+	public void discoverLand(int x, int y) {
+		VisionLevel v = getVisionLevel();
+		MapLevel m = getMapLevel();
+		
+		boolean[][] discovery = new boolean[getLevel().getWidth()][getLevel().getHeight()];
+		
+		Room room = getLevel().getRoom(x, y);
+		
+		if (room != null && (m.isForgetful() || !room.isFound()) && v.seeRooms()) {
+			room.find();
+			for (int i = room.x; i < room.x + room.width; i++) {
+				for (int j = room.y; j < room.y + room.height; j++) {
+					discoverTile(discovery, i, j);
+				}
+			}
+		}
+		if (v.seeAdjacent()) {
+			// This code is for seeing only one tile away, except in rooms:
+			for (int i = -1; i <= 1; i++) {
+				discoverTile(discovery, x+i, y);
+				discoverTile(discovery, x, y+i);
+			}
+		} else discoverTile(discovery, x, y);
+		
+		getMapMask().append(discovery);
+	}
+	
+	/**
+	 * 
+	 * "Discover" one tile, i.e., allow the player to see it.
+	 * 
+	 * @param x - the X coordinate of the tile to be discovered
+	 * @param y - the Y coordinate of the tile to be discovered
+	 * @return if the tile was existent & changed
+	 */
+	public boolean discoverTile(boolean[][] fow, int x, int y) {
+		if (x > fow.length || x < 0 || y > fow[x].length || y < 0) return false;
+		else {
+			boolean old = fow[x][y];
+			fow[x][y] = true;
+			return old != fow[x][y];
+		}
+	}
+	
+	public MapMask getMapMask() {
+		return mask;
 	}
 	
 	public void updateDisplay() {

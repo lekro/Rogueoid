@@ -1,5 +1,9 @@
 package lekro.rogueoid.entity.attributes;
 
+import lekro.rogueoid.map.mask.LayeredMapMask;
+import lekro.rogueoid.map.mask.MapMask;
+import lekro.rogueoid.map.mask.UniformMapMask;
+
 public enum MapLevel {
 
 	/**
@@ -41,9 +45,23 @@ public enum MapLevel {
 	
 	public int getForgetfulness() {
 		switch(this) {
-		case AMNESIAC: return 2;
-		case FORGETFUL: return 3;
+		case MAPLESS: return 1;
+		case AMNESIAC: return 3;
+		case FORGETFUL: return 5;
 		default: return -1;
+		}
+	}
+	
+	public MapMask toMapMask(int width, int height) {
+		switch(this) {
+		case AMNESIAC:
+		case FORGETFUL:
+		case MAPLESS:
+			return new LayeredMapMask(getForgetfulness(), width, height);
+		case NORMAL:
+		case MARAUDERS:
+		default:
+			return new UniformMapMask(width, height);
 		}
 	}
 	

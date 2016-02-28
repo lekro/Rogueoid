@@ -10,7 +10,6 @@ import lekro.rogueoid.RogueMath;
 import lekro.rogueoid.entity.Entity;
 import lekro.rogueoid.entity.Monster;
 import lekro.rogueoid.entity.Player;
-import lekro.rogueoid.entity.attributes.MapLevel;
 import lekro.rogueoid.entity.attributes.VisionLevel;
 
 public class Level {
@@ -55,7 +54,6 @@ public class Level {
 	private Room[][] rooms;
 	private Set<Path> paths;
 	private char[][] charMap;
-	private boolean[][] fogOfWar;
 	
 	private Set<Entity> entities;
 	private Player player;
@@ -171,10 +169,7 @@ public class Level {
 			}	
 		}
 		
-		for (Path p : paths) p.displayCharMap(charMap);
-		
-		fogOfWar = new boolean[charMap.length][charMap[0].length];
-		
+		for (Path p : paths) p.displayCharMap(charMap);		
 		
 	}
 	
@@ -226,98 +221,14 @@ public class Level {
 		return map;
 	}
 	
-	public boolean[][] getFogOfWar() {
-		return fogOfWar;
-	}
-	
-	public void clearFogOfWar() {
-		fogOfWar = new boolean[fogOfWar.length][fogOfWar[0].length];
-	}
-	
-	public char[][] applyFogOfWar() {
+	public char[][] getMaskedMap() {
 		char[][] map = toCharArray();
 		if (getPlayer().getVisionLevel().equals(VisionLevel.OMNISCIENT)) return map;
-		boolean[][] fow = getFogOfWar();
-		for (int i = 0; i < map.length; i++) {
-			for (int j = 0; j < map[i].length; j++) {
-				map[i][j] = (fow[i][j]) ? map[i][j] : EMPTY_SPACE;
-			}
-		}
-		return map;
-	}
-	
-	public void discoverLand(int x, int y) {
-		
-		Player player = getPlayer();
-		VisionLevel v = player.getVisionLevel();
-		MapLevel m = player.getMapLevel();
-		
-		if (m.equals(MapLevel.MAPLESS)) clearFogOfWar();
-		
-		Room room = getRoom(x, y);
-		
-		// TODO implement the following better:
-		// (different layers for the fog of war need to be stored
-		// and intersected in this case!)
-		
-		if (m.isForgetful()) {
-			if (player.getMapAge() > m.getForgetfulness()) {
-				clearFogOfWar();
-				player.resetMapAge();
-			} else {
-				player.incrementMapAge();
-			}
-		}
-		
-		if (room != null && (m.isForgetful() || !room.isFound()) && v.seeRooms()) {
-			room.find();
-			for (int i = room.x; i < room.x + room.width; i++) {
-				for (int j = room.y; j < room.y + room.height; j++) {
-					discoverTile(i, j);
-				}
-			}
-		}
-		if (v.seeAdjacent()) {
-			// This code is for seeing only one tile away, except in rooms:
-			for (int i = -1; i <= 1; i++) {
-				discoverTile(x+i, y);
-				discoverTile(x, y+i);
-			}
-		} else discoverTile(x, y);
-		
-		
-		// This code is for seeing around in a square:
-		/*
-		
-		int r = 1;
-		for (int i = x-r; i <= x+r; i++) {
-			for (int j = y-r; j <= y+r; j++) {
-				discoverTile(i, j);
-			}
-		}
-		*/
-	}
-	
-	/**
-	 * 
-	 * "Discover" one tile, i.e., allow the player to see it.
-	 * 
-	 * @param x - the X coordinate of the tile to be discovered
-	 * @param y - the Y coordinate of the tile to be discovered
-	 * @return if the tile was existent & changed
-	 */
-	public boolean discoverTile(int x, int y) {
-		boolean[][] fow = getFogOfWar();
-		if (x > fow.length || x < 0 || y > fow[x].length || y < 0) return false;
-		else {
-			boolean old = fow[x][y];
-			fow[x][y] = true;
-			return old != fow[x][y];
-		}
+		return getPlayer().getMapMask().apply(map);
 	}
 	
 	public String toString() {
-		char[][] map = applyFogOfWar();
+		char[][] map = getMaskedMap();
 		StringBuilder sb = new StringBuilder((height+1)*width);
 		for (int i = 0; i < map[0].length; i++) {
 			for (int j = 0; j < map.length; j++) {
