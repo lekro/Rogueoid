@@ -206,6 +206,10 @@ public class Level {
 		return false;
 	}
 	
+	public char[][] getCharMap() {
+		return charMap;
+	}
+	
 	public char[][] toCharArray() {
 
 		char[][] map = new char[charMap.length][charMap[0].length];

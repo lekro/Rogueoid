@@ -53,9 +53,15 @@ public class Player extends Entity {
 		}
 		if (v.seeAdjacent()) {
 			// This code is for seeing only one tile away, except in rooms:
+			char[][] map = getLevel().getCharMap();
+			
 			for (int i = -1; i <= 1; i++) {
-				discoverTile(discovery, x+i, y);
-				discoverTile(discovery, x, y+i);
+				if (x+i >= 0 && x+i <= discovery.length && Level.PASSABLE.contains(map[x+1][y])) {
+					discoverTile(discovery, x+i, y);
+				}
+				if (y+i >= 0 && y+i <= discovery[x].length && Level.PASSABLE.contains(map[x][y+1])) {
+					discoverTile(discovery, x, y+i);
+				}
 			}
 		} else discoverTile(discovery, x, y);
 		
