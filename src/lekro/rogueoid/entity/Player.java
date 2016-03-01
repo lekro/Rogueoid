@@ -56,15 +56,14 @@ public class Player extends Entity {
 			char[][] map = getLevel().getCharMap();
 			
 			for (int i = -1; i <= 1; i++) {
-				if (x+i >= 0 && x+i <= discovery.length && Level.PASSABLE.contains(map[x+1][y])) {
+				if (x+i >= 0 && x+i <= discovery.length && Level.PASSABLE.contains(map[x+i][y])) {
 					discoverTile(discovery, x+i, y);
 				}
-				if (y+i >= 0 && y+i <= discovery[x].length && Level.PASSABLE.contains(map[x][y+1])) {
+				if (y+i >= 0 && y+i <= discovery[x].length && Level.PASSABLE.contains(map[x][y+i])) {
 					discoverTile(discovery, x, y+i);
 				}
 			}
 		} else discoverTile(discovery, x, y);
-		
 		getMapMask().append(discovery);
 	}
 	
@@ -81,7 +80,7 @@ public class Player extends Entity {
 		else {
 			boolean old = fow[x][y];
 			fow[x][y] = true;
-			return old != fow[x][y];
+			return !old;
 		}
 	}
 	
