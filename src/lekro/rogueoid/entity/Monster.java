@@ -30,7 +30,7 @@ public class Monster extends Entity {
 	}
 
 	@Override
-	public void handleHealthChange() {
+	public void receiveAttack(Entity other) {
 		if (getHealth() <= 0) getLevel().getEntities().remove(this);
 	}
 	

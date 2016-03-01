@@ -6,11 +6,13 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import lekro.rogueoid.RogueLoop;
 import lekro.rogueoid.RogueMath;
 import lekro.rogueoid.entity.Entity;
 import lekro.rogueoid.entity.Monster;
 import lekro.rogueoid.entity.Player;
 import lekro.rogueoid.entity.attributes.VisionLevel;
+import lekro.rogueoid.entity.tile.Staircase;
 
 public class Level {
 
@@ -57,6 +59,7 @@ public class Level {
 	
 	private Set<Entity> entities;
 	private Player player;
+	private RogueLoop loop;
 	
 	public Level() {
 		this(DEFAULT_HEIGHT, DEFAULT_WIDTH);
@@ -134,6 +137,10 @@ public class Level {
 				int y = random.nextInt(r.height-2) + r.y + 1;
 				Monster m = new Monster(x, y, this);
 				entities.add(m);
+				x = random.nextInt(r.width-2) + r.x + 1;
+				y = random.nextInt(r.height-2) + r.y + 1;
+				Staircase te = new Staircase(x, y, this);
+				entities.add(te);
 			}
 		}
 		
@@ -276,6 +283,14 @@ public class Level {
 			}
 		}
 		return player;
+	}
+	
+	public RogueLoop getLoop() {
+		return loop;
+	}
+	
+	public void setLoop(RogueLoop loop) {
+		this.loop = loop;
 	}
 	
 }

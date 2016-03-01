@@ -17,7 +17,10 @@ public class RogueListener implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent ke) {
 		int input = ke.getKeyCode();
-		if (input == KeyEvent.VK_ESCAPE) loop.reset();
+		if (input == KeyEvent.VK_ESCAPE) {
+			loop.newPlayer();
+			loop.reset();
+		}
 		if (keyAlreadyPressed == input) return;
 		keyAlreadyPressed = input;
 		int direction = getDirection(input);

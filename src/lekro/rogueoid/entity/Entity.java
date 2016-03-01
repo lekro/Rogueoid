@@ -33,7 +33,7 @@ public abstract class Entity {
 	
 	public abstract void tick();
 	
-	public abstract void handleHealthChange();
+	public abstract void receiveAttack(Entity other);
 	
 	public int getX() {
 		return x;
@@ -45,6 +45,11 @@ public abstract class Entity {
 	
 	public Point getLocation() {
 		return new Point(x, y);
+	}
+	
+	public void setLocation(Point p) {
+		x = p.x;
+		y = p.y;
 	}
 	
 	public void setX(int x) {
@@ -130,7 +135,7 @@ public abstract class Entity {
 	public void attack(Entity other) {
 		System.out.println(this+" attacks "+other);
 		other.setHealth(other.getHealth() - 1);
-		other.handleHealthChange();
+		other.receiveAttack(this);
 		// TODO implement some proper attack / defense formulae
 	}
 	
@@ -144,6 +149,10 @@ public abstract class Entity {
 	
 	public Level getLevel() {
 		return level;
+	}
+	
+	public void setLevel(Level l) {
+		level = l;
 	}
 	
 	@Override

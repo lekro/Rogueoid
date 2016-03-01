@@ -23,7 +23,7 @@ public class Player extends Entity {
 		super(x, y, level, 10);
 		level.getEntities().add(this);
 		mask = getMapLevel().toMapMask(level.getWidth(), level.getHeight());
-		discoverLand(getX(), getY());
+		discoverLand();
 		setRepresentation(Level.PLAYER);
 		setName("Player");
 	}
@@ -32,12 +32,15 @@ public class Player extends Entity {
 	public void tick() {
 		updateDisplay();
 		couldMove = move(direction);
-		if (couldMove) discoverLand(getX(), getY());
+		if (couldMove) discoverLand();
 	}
 	
-	public void discoverLand(int x, int y) {
+	public void discoverLand() {
 		VisionLevel v = getVisionLevel();
 		MapLevel m = getMapLevel();
+		
+		int x = getX();
+		int y = getY();
 		
 		boolean[][] discovery = new boolean[getLevel().getWidth()][getLevel().getHeight()];
 		
@@ -103,7 +106,7 @@ public class Player extends Entity {
 	}
 
 	@Override
-	public void handleHealthChange() {
+	public void receiveAttack(Entity other) {
 		updateDisplay();
 	}
 

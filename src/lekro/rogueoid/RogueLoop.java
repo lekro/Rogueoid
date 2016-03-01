@@ -19,6 +19,7 @@ public class RogueLoop {
 		level = l;
 		player = l.getPlayer();
 		this.ui = ui;
+		l.setLoop(this);
 		ui.setLoop(this);
 	}
 	
@@ -75,10 +76,22 @@ public class RogueLoop {
 		return bar;
 	}
 	
-	public void reset() {
-		level = new Level();
+	public void newPlayer() {
 		Point p = level.getValidLocation();
 		player = new Player(p.x, p.y, level);
+	}
+	
+	public void resetPlayer() {
+		player.setLocation(level.getValidLocation());
+		player.getMapMask().clear();
+		player.setLevel(level);
+		player.discoverLand();
+	}
+	
+	public void reset() {
+		level = new Level();
+		level.setLoop(this);
+		resetPlayer();
 		level.getEntities().add(player);
 		ui.setText(level.toString() + "\n" + constructPlayerBar());
 	}
