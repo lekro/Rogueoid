@@ -1,7 +1,5 @@
 package lekro.rogueoid;
 
-import java.awt.Point;
-
 import lekro.rogueoid.entity.Player;
 import lekro.rogueoid.map.Level;
 import lekro.rogueoid.ui.RogueoidUI;
@@ -13,8 +11,7 @@ public class Rogueoid {
 	public static void main(String[] args) {
 
 		Level l = new Level();
-		Point p = l.getValidLocation();
-		/*Player player = */new Player(p.x, p.y, l);
+		/*Player player = */new Player(l.getRandomLocation(), l);
 		RogueoidUI ui = RogueoidUI.getRecommendedUI();
 		RogueLoop loop = new RogueLoop(l, ui);
 		ui.setText(l.toString() + "\n" + loop.constructPlayerBar());

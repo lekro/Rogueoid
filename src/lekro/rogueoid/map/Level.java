@@ -12,6 +12,8 @@ import lekro.rogueoid.entity.Entity;
 import lekro.rogueoid.entity.Monster;
 import lekro.rogueoid.entity.Player;
 import lekro.rogueoid.entity.attributes.VisionLevel;
+import lekro.rogueoid.entity.effects.HealthPotionEffect;
+import lekro.rogueoid.entity.tile.Potion;
 import lekro.rogueoid.entity.tile.Staircase;
 
 public class Level {
@@ -137,12 +139,13 @@ public class Level {
 				int y = random.nextInt(r.height-2) + r.y + 1;
 				Monster m = new Monster(x, y, this);
 				entities.add(m);
-				x = random.nextInt(r.width-2) + r.x + 1;
-				y = random.nextInt(r.height-2) + r.y + 1;
-				Staircase te = new Staircase(x, y, this);
-				entities.add(te);
 			}
 		}
+		
+		Staircase st = new Staircase(getRandomLocation(), this);
+		entities.add(st);
+		Potion po = new Potion(getRandomLocation(), this, new HealthPotionEffect(1, 1));
+		entities.add(po);
 		
 		charMap = new char[width][height];
 		
@@ -180,7 +183,7 @@ public class Level {
 		
 	}
 	
-	public Point getValidLocation() {
+	public Point getRandomLocation() {
 		Random rand = new Random();
 		Point p = null;
 		while (true) {
@@ -192,6 +195,9 @@ public class Level {
 			int x = rand.nextInt(r.width-2) + r.x + 1;
 			int y = rand.nextInt(r.height-2) + r.y + 1;
 			p = new Point(x, y);
+			for (Entity e : getEntities()) {
+				if (p.equals(e.getLocation())) continue;
+			}
 			break;
 		}
 		return p;

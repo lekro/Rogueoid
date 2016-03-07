@@ -19,6 +19,10 @@ public abstract class Entity {
 
 	private UUID uuid;
 	
+	public Entity(Point location, Level level, int maxHealth) {
+		this(location.x, location.y, level, maxHealth);
+	}
+	
 	public Entity(int x, int y, Level level, int maxHealth) {
 		setX(x);
 		setY(y);

@@ -1,5 +1,7 @@
 package lekro.rogueoid.entity.tile;
 
+import java.awt.Point;
+
 import lekro.rogueoid.entity.Entity;
 import lekro.rogueoid.map.Level;
 
@@ -9,6 +11,10 @@ public class Staircase extends TileEntity {
 		super(x, y, level);
 		setName("Staircase");
 		setRepresentation('S');
+	}
+	
+	public Staircase(Point location, Level level) {
+		this(location.x, location.y, level);
 	}
 
 	@Override

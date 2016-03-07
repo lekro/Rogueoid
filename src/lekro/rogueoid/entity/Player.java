@@ -1,5 +1,7 @@
 package lekro.rogueoid.entity;
 
+import java.awt.Point;
+
 import lekro.rogueoid.entity.attributes.MapLevel;
 import lekro.rogueoid.entity.attributes.VisionLevel;
 import lekro.rogueoid.map.Level;
@@ -26,6 +28,10 @@ public class Player extends Entity {
 		discoverLand();
 		setRepresentation(Level.PLAYER);
 		setName("Player");
+	}
+	
+	public Player(Point location, Level level) {
+		this(location.x, location.y, level);
 	}
 
 	@Override

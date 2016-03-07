@@ -1,7 +1,5 @@
 package lekro.rogueoid;
 
-import java.awt.Point;
-
 import lekro.rogueoid.entity.Entity;
 import lekro.rogueoid.entity.Player;
 import lekro.rogueoid.map.Level;
@@ -77,12 +75,11 @@ public class RogueLoop {
 	}
 	
 	public void newPlayer() {
-		Point p = level.getValidLocation();
-		player = new Player(p.x, p.y, level);
+		player = new Player(level.getRandomLocation(), level);
 	}
 	
 	public void resetPlayer() {
-		player.setLocation(level.getValidLocation());
+		player.setLocation(level.getRandomLocation());
 		player.getMapMask().clear();
 		player.setLevel(level);
 		player.discoverLand();

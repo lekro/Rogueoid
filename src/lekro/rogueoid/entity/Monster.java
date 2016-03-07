@@ -1,5 +1,7 @@
 package lekro.rogueoid.entity;
 
+import java.awt.Point;
+
 import lekro.rogueoid.map.Level;
 
 
@@ -14,6 +16,10 @@ public class Monster extends Entity {
 		setName("Scary Monster");
 		direction = getRand().nextInt(4);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Monster(Point location, Level level) {
+		this(location.x, location.y, level);
 	}
 
 	@Override
