@@ -23,6 +23,10 @@ public abstract class PotionEffect {
 		return time;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	@Override
 	public String toString() {
 		return name+"("+magnitude+")";

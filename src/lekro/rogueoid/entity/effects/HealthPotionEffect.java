@@ -10,8 +10,16 @@ public class HealthPotionEffect extends PotionEffect {
 
 	@Override
 	public void affect(Entity e) {
-		e.setHealth(e.getMaxHealth());
+		e.setHealth(e.getHealth() + getMagnitude());
+		if (getMagnitude() == 0 || e.getHealth() > e.getMaxHealth()) {
+			e.setHealth(e.getMaxHealth());
+		}
 	}
 	
+	@Override
+	public String toString() {
+		return getName() + "(" + 
+				((getMagnitude() == 0) ? "full" : getMagnitude()) + ")";
+	}
 
 }

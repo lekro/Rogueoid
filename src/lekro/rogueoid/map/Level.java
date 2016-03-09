@@ -144,7 +144,7 @@ public class Level {
 		
 		Staircase st = new Staircase(getRandomLocation(), this);
 		entities.add(st);
-		Potion po = new Potion(getRandomLocation(), this, new HealthPotionEffect(1, 1));
+		Potion po = new Potion(getRandomLocation(), this, new HealthPotionEffect(0, 1));
 		entities.add(po);
 		
 		charMap = new char[width][height];
