@@ -57,12 +57,19 @@ public class RogueLoop {
 			}
 			return dead;
 		}
-		int numberOfStats = 2;
-		int statWidth = width / numberOfStats;
-		String bar = "";
+		//int numberOfStats = 2;
+		//int statWidth = width / numberOfStats;
+		String bar = player.getName() + " - ";
 		bar += player.getHealth() + " / ";
-		bar += player.getMaxHealth() + " [";
-		int healthWidth = statWidth - bar.length();
+		bar += player.getMaxHealth() + " HP - ";
+		//bar += generateBar(statWidth, bar.length());
+		bar += "Score";
+		return bar;
+	}
+	
+	public String generateBar(int statWidth, int currentLength) {
+		String bar = "[";
+		int healthWidth = statWidth - currentLength;
 		int healthSpace = (healthWidth - 2)*2/3;
 		int healthBlock = (int) (healthSpace * player.getPercentHealth());
 		for (int i = 0; i < healthSpace; i++) {
@@ -70,7 +77,6 @@ public class RogueLoop {
 			else bar += RogueoidUI.LIGHT;
 		}
 		bar += "] ";
-		bar += "Score";
 		return bar;
 	}
 	
